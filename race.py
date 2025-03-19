@@ -1,5 +1,7 @@
+from tokenize import String
 from turtle import Turtle, Screen
 import random
+from types import NoneType
 
 """Set turtles"""
 red_t = Turtle()
@@ -24,7 +26,7 @@ violet_t = Turtle()
 violet_t.color("violet")
 
 racer_list = [red_t,orange_t,yellow_t,green_t,blue_t,indigo_t,violet_t]
-
+winner = "none"
 """Set icons to Turtle shape"""
 for i in racer_list:
     i.shape("turtle")
@@ -33,8 +35,6 @@ for i in racer_list:
 """Set Screen"""
 screen = Screen()
 screen.setup(width=500,height=400)
-
-print(racer_list[0])
 
 def starting_line():
     list_of_positions = [0,-30,-60,-90,30,60,90]
@@ -46,17 +46,27 @@ def starting_line():
 
 def random_forwards():
     for i in racer_list:
-        i.forward(random.randrange(2,6))
+        i.forward(random.randrange(0,6))
+        if i.xcor() > float(100.00):
+            return i.pencolor()
 
-def check_win():
-    for i in racer_list:
-        if i.xcor() > 0:
-            return print(f"The winner is {i}")
 
 """Move turtles to starting positions"""
 starting_line()
 
+user_choice = screen.textinput(title="Make your bet!",prompt="Who will win the race? Red/Orange/Yellow/Green/Blue/Indigo/Violet").lower()
+
 while True:
-    random_forwards()
-    check_win()
+    winner = random_forwards()
+    if winner is not None:
+        print(f"The winner is {winner}!")
+        break
+    else:
+        pass
+
+if winner == user_choice:
+    print("Congratulations!")
+else:
+    print("Sorry!")
+exit()
 screen.exitonclick()
